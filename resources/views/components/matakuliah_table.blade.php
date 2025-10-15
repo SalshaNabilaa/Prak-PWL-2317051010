@@ -2,29 +2,27 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Nama</th>
-            <th>NPM</th>
-            <th>Kelas</th>
+            <th>Nama Mata Kuliah</th>
+            <th>SKS</th>
             <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($users as $user)
+        @foreach ($mks as $mk)
             <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->nama }}</td>
-                <td>{{ $user->nim }}</td>
-                <td>{{ $user->kelas->nama_kelas ?? '-' }}</td>
+                <td>{{ $mk->id }}</td>
+                <td>{{ $mk->nama_mk }}</td>
+                <td>{{ $mk->sks }}</td>
                 <td>
                     {{-- Tombol Edit --}}
-                    <a href="{{ route('user.edit', $user->id) }}" class="btn btn-edit btn-sm me-2">
+                    <a href="{{ route('matakuliah.edit', $mk->id) }}" class="btn btn-edit btn-sm me-2">
                         Edit
                     </a>
 
                     {{-- Tombol Delete --}}
-                    <form action="{{ route('user.destroy', $user->id) }}" 
+                    <form action="{{ route('matakuliah.destroy', $mk->id) }}" 
                           method="POST" style="display:inline;"
-                          onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                          onsubmit="return confirm('Yakin ingin menghapus mata kuliah ini?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-delete btn-sm">

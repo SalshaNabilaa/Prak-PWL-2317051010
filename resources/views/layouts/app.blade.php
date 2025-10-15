@@ -6,6 +6,7 @@
     <title>{{ $title ?? 'Aplikasi User' }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
@@ -27,44 +28,14 @@
             color: #ffe6ee !important;
         }
 
-        /* Card */
-        .card {
-            border: none;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        /* Card header */
-        .card-header {
-            background: linear-gradient(135deg, #f8a5c2, #d291bc) !important;
-            color: #fff !important;
-            font-weight: 600;
-            border-bottom: none !important;
-            border-radius: 15px 15px 0 0 !important;
-        }
-
-        .form-card {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
         /* Table */
-        .table {
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        /* Header tabel */
         .table thead th {
             background: linear-gradient(135deg, #f78fb3, #c79bd2) !important;
             color: white !important;
             font-weight: 600;
             text-align: center;
-            border: none !important;
         }
 
-        /* Striping tabel */
         .table tbody tr:nth-child(odd) {
             background-color: #fff5f7;
         }
@@ -73,36 +44,49 @@
             background-color: #ffeef2;
         }
 
-        /* Hover efek */
         .table tbody tr:hover {
             background-color: #ffe0eb !important;
         }
 
-        /* Button */
-        .btn-pink {
-            background: linear-gradient(135deg, #f78fb3, #fbb1bd);
-            color: white !important;
+        /* Tombol custom */
+        .btn-edit {
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
             border: none;
-            border-radius: 30px;
-            padding: 6px 18px;
+            color: #fff;
+            border-radius: 25px;
+            padding: 6px 14px;
+            transition: 0.3s;
             font-weight: 500;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 6px rgba(247, 143, 179, 0.4);
+            box-shadow: 0 3px 6px rgba(116, 185, 255, 0.4);
         }
 
-        .btn-pink:hover {
-            background: linear-gradient(135deg, #fbb1bd, #f78fb3);
+        .btn-edit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(247, 143, 179, 0.6);
+            box-shadow: 0 6px 10px rgba(116, 185, 255, 0.6);
         }
 
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, #f78fb3, #f5cdde) !important;
-            color: #fff !important;
+        .btn-delete {
+            background: linear-gradient(135deg, #ff7675, #fab1a0);
+            border: none;
+            color: #fff;
+            border-radius: 25px;
+            padding: 6px 14px;
+            transition: 0.3s;
             font-weight: 500;
-            font-size: 0.95rem;
-            border-top: 2px solid #fddde6;
+            box-shadow: 0 3px 6px rgba(255, 118, 117, 0.4);
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(255, 118, 117, 0.6);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #f78fb3, #f5cdde);
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-top: auto;
         }
     </style>
 </head>
@@ -113,11 +97,49 @@
     @include('components.navbar')
 
     <div class="container my-4">
+        {{-- Flash Message Bootstrap --}}
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @elseif (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        {{-- Konten Halaman --}}
         @yield('content')
     </div>
 
     {{-- Footer --}}
     @include('components.footer')
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- Notifikasi SweetAlert --}}
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    @elseif (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '{{ session('error') }}',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
 </body>
 </html>
